@@ -501,7 +501,7 @@ h2{font-size:1.5rem;font-weight:700;letter-spacing:-.03em;margin-bottom:1.75rem}
       </div>
       <div class="g" style="padding:1.25rem;border-radius:14px;text-align:center;border-color:rgba(201,168,76,.3);background:linear-gradient(135deg,rgba(201,168,76,.1),rgba(201,168,76,.03))">
         <div style="font-family:'Space Mono',monospace;font-size:.5rem;color:var(--accent);letter-spacing:.12em;text-transform:uppercase;margin-bottom:.4rem">Bénéfice net</div>
-        <div id="r_benef" style="font-family:'Space Mono',monospace;font-size:1.8rem;font-weight:700;background:linear-gradient(135deg,var(--accent),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">6 750€</div>
+        <div id="r_benef" style="font-family:'Space Mono',monospace;font-size:1.8rem;font-weight:700;color:var(--accent)">6 750€</div>
         <div style="font-size:.55rem;color:var(--muted);margin-top:.15rem">/ mois · dans votre poche</div>
       </div>
     </div>
@@ -623,10 +623,7 @@ function calc(){
   document.getElementById('r_ca').textContent=fmt(totalCA);
   document.getElementById('r_charges').textContent=fmt(-totalCharges);
   document.getElementById('r_benef').textContent=fmt(benef);
-  document.getElementById('r_benef').style.color=benef>=0?'':'#F87171';
-  document.getElementById('r_benef').style.background=benef>=0?'linear-gradient(135deg,#C9A84C,#38BDF8)':'none';
-  document.getElementById('r_benef').style.webkitBackgroundClip=benef>=0?'text':'unset';
-  document.getElementById('r_benef').style.webkitTextFillColor=benef>=0?'transparent':'#F87171';
+  document.getElementById('r_benef').style.color=benef>=0?'#C9A84C':'#F87171';
 
   // Update details
   document.getElementById('d_courses').textContent=coursesCount.toLocaleString('fr')+' courses × '+avg+'€ = '+fmt(rCourses);
