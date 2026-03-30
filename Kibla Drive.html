@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KIBLA Drive — Concept</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#06060E;--glass:rgba(255,255,255,.04);--glass-border:rgba(255,255,255,.08);--glass-hover:rgba(255,255,255,.07);--accent:#C9A84C;--cyan:#38BDF8;--green:#4ADE80;--text:#E4E2DD;--muted:#6B6B78;--bright:#fff}
+*{margin:0;padding:0;box-sizing:border-box}
+html{background:var(--bg);scroll-behavior:smooth}
+body{font-family:'Sora',sans-serif;background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;line-height:1.5;overflow-x:hidden}
+body::before{content:'';position:fixed;top:-40%;left:-20%;width:80vw;height:80vw;border-radius:50%;background:radial-gradient(circle,rgba(201,168,76,.06)0%,transparent 60%);pointer-events:none;z-index:0}
+body::after{content:'';position:fixed;bottom:-30%;right:-20%;width:70vw;height:70vw;border-radius:50%;background:radial-gradient(circle,rgba(56,189,248,.04)0%,transparent 60%);pointer-events:none;z-index:0}
+.grid-bg{position:fixed;inset:0;background-image:linear-gradient(rgba(255,255,255,.015)1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.015)1px,transparent 1px);background-size:60px 60px;pointer-events:none;z-index:0}
+.page{max-width:960px;margin:0 auto;padding:0 2rem;position:relative;z-index:1}
+section{padding:4rem 0;border-bottom:1px solid var(--glass-border)}
+section:last-of-type{border-bottom:none}
+.g{background:var(--glass);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid var(--glass-border);border-radius:14px;transition:all .3s ease}
+.g:hover{background:var(--glass-hover);border-color:rgba(255,255,255,.12)}
+.label{font-family:'Space Mono',monospace;font-size:.58rem;font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:var(--cyan);margin-bottom:.6rem;display:flex;align-items:center;gap:.5rem}
+.label::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--cyan);box-shadow:0 0 10px rgba(56,189,248,.3);flex-shrink:0}
+h1{font-size:3.2rem;font-weight:800;line-height:1;letter-spacing:-.04em}
+h1 span{background:linear-gradient(135deg,var(--accent),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+h2{font-size:1.5rem;font-weight:700;letter-spacing:-.03em;margin-bottom:1.75rem}
+.accent{color:var(--accent)}
+.header{padding:3.5rem 0 4rem;border-bottom:1px solid var(--glass-border);display:flex;justify-content:space-between;align-items:flex-end;gap:2rem}
+.header h1{margin-bottom:.6rem}
+.subtitle{font-size:.95rem;color:var(--muted);max-width:500px}
+.header-meta{text-align:right;flex-shrink:0}
+.tag{display:inline-block;padding:.3rem .8rem;border:1px solid var(--cyan);color:var(--cyan);font-family:'Space Mono',monospace;font-size:.5rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;border-radius:100px;margin-bottom:.4rem}
+.header-meta p{font-size:.65rem;color:var(--muted);font-family:'Space Mono',monospace}
+.concept-box{text-align:center;padding:3rem 2rem}
+.concept-text{font-size:1.15rem;color:var(--muted);max-width:720px;margin:0 auto 2rem;line-height:1.7}
+.concept-text strong{color:var(--bright);font-weight:700}
+.concept-pills{display:flex;justify-content:center;gap:.6rem;flex-wrap:wrap}
+.pill{padding:.5rem 1.1rem;border-radius:100px;font-size:.7rem;font-weight:600;border:1px solid var(--glass-border);background:var(--glass);backdrop-filter:blur(10px);color:var(--text)}
+.pill em{font-style:normal;color:var(--accent)}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
+.g2{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem}
+.pil{padding:1.5rem;border-radius:14px}
+.pil-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;margin-bottom:1rem;background:rgba(56,189,248,.08);border:1px solid rgba(56,189,248,.15)}
+.pil h3{font-size:.85rem;font-weight:700;margin-bottom:.5rem}
+.pil-point{display:flex;align-items:flex-start;gap:.5rem;margin-bottom:.4rem}
+.pil-point::before{content:'›';color:var(--accent);font-weight:700;font-size:.85rem;flex-shrink:0;margin-top:-.05rem}
+.pil-point span{font-size:.73rem;color:var(--muted);line-height:1.5}
+.gamme{padding:1.5rem;border-radius:14px;position:relative;overflow:hidden}
+.gamme-glow{position:absolute;top:-1px;left:20%;right:20%;height:1px;background:linear-gradient(90deg,transparent,var(--accent),transparent)}
+.gamme-top{display:flex;align-items:center;gap:.6rem;margin-bottom:.75rem}
+.gamme-top-icon{font-size:1.6rem}
+.gamme-top-text h3{font-size:.95rem;font-weight:800;margin-bottom:0}
+.gamme-top-text span{font-family:'Space Mono',monospace;font-size:.55rem;color:var(--cyan);letter-spacing:.1em;text-transform:uppercase}
+.gamme-badge{position:absolute;top:.8rem;right:.8rem;background:linear-gradient(135deg,var(--accent),#E2C97E);color:var(--bg);font-family:'Space Mono',monospace;font-size:.45rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;padding:.2rem .55rem;border-radius:100px}
+.gamme-specs{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;margin-bottom:.75rem}
+.spec{background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.05);border-radius:8px;padding:.6rem .75rem}
+.spec-label{font-family:'Space Mono',monospace;font-size:.5rem;color:var(--cyan);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.2rem}
+.spec-val{font-size:.72rem;color:var(--text);font-weight:500}
+.gamme-footer{padding-top:.6rem;border-top:1px solid var(--glass-border);font-family:'Space Mono',monospace;font-size:.6rem;color:var(--muted);display:flex;justify-content:space-between}
+.gamme-footer strong{color:var(--bright);font-weight:700}
+.feat{margin-bottom:2rem}
+.feat:last-child{margin-bottom:0}
+.feat-header{display:flex;align-items:center;gap:.7rem;margin-bottom:1rem}
+.feat-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.15rem;background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.15);flex-shrink:0}
+.feat-title{font-size:1rem;font-weight:700}
+.flow{display:grid;grid-template-columns:repeat(4,1fr);gap:.6rem;margin-bottom:.75rem}
+.flow-3{grid-template-columns:repeat(3,1fr)}
+.fl{background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.06);border-radius:10px;padding:.9rem 1rem;position:relative}
+.fl-num{font-family:'Space Mono',monospace;font-size:.5rem;font-weight:700;color:var(--cyan);letter-spacing:.1em;margin-bottom:.35rem}
+.fl h4{font-size:.73rem;font-weight:700;margin-bottom:.15rem;color:var(--bright)}
+.fl p{font-size:.65rem;color:var(--muted);line-height:1.45}
+.fl-arrow{position:absolute;top:50%;right:-.45rem;transform:translateY(-50%);width:0;height:0;border-top:4px solid transparent;border-bottom:4px solid transparent;border-left:4px solid rgba(201,168,76,.4);z-index:2}
+.fl:last-child .fl-arrow{display:none}
+.detail-row{display:grid;grid-template-columns:repeat(2,1fr);gap:.6rem}
+.det{background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.06);border-radius:10px;padding:.9rem 1rem}
+.det h4{font-size:.68rem;font-weight:700;color:var(--accent);margin-bottom:.2rem;display:flex;align-items:center;gap:.35rem}
+.det p{font-size:.65rem;color:var(--muted);line-height:1.45}
+.comp{width:100%;border-collapse:collapse;font-size:.75rem}
+.comp th,.comp td{padding:.6rem .8rem;text-align:left;border-bottom:1px solid var(--glass-border)}
+.comp thead th{font-family:'Space Mono',monospace;font-weight:700;font-size:.55rem;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);border-bottom:1px solid rgba(255,255,255,.1)}
+.comp thead th.hl{color:var(--accent)}
+.comp td:first-child{font-weight:500;color:var(--text);font-size:.72rem}
+.comp td{color:var(--muted)}
+.y{color:var(--green);font-weight:700}
+.n{color:#2a2a2a}
+.ck{background:rgba(201,168,76,.03)}
+.comp tbody tr{transition:background .2s}
+.comp tbody tr:hover{background:rgba(255,255,255,.02)}
+.rev-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem}
+.rev{padding:1.25rem;border-radius:14px;text-align:center}
+.rev-i{width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.15);margin:0 auto .6rem}
+.rev h4{font-size:.72rem;font-weight:700;margin-bottom:.3rem}
+.rev-desc{font-size:.62rem;color:var(--muted);line-height:1.4;margin-bottom:.5rem}
+.rev-num{font-family:'Space Mono',monospace;font-size:1.3rem;font-weight:700;background:linear-gradient(135deg,var(--accent),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.rev-num span{font-family:'Sora',sans-serif;font-size:.5rem;font-weight:500;color:var(--muted);display:block;-webkit-text-fill-color:var(--muted)}
+
+/* ANIMATIONS */
+.rv{opacity:0;transform:translateY(30px);transition:opacity .7s cubic-bezier(.22,1,.36,1),transform .7s cubic-bezier(.22,1,.36,1)}
+.rv.vis{opacity:1;transform:translateY(0)}
+.rv-scale{opacity:0;transform:scale(.92);transition:opacity .6s cubic-bezier(.22,1,.36,1),transform .6s cubic-bezier(.22,1,.36,1)}
+.rv-scale.vis{opacity:1;transform:scale(1)}
+.d1{transition-delay:.08s}.d2{transition-delay:.16s}.d3{transition-delay:.24s}.d4{transition-delay:.32s}.d5{transition-delay:.4s}.d6{transition-delay:.48s}
+.header-anim .label{animation:fadeUp .6s ease .1s both}
+.header-anim h1{animation:fadeUp .7s cubic-bezier(.22,1,.36,1) .2s both}
+.header-anim .subtitle{animation:fadeUp .7s cubic-bezier(.22,1,.36,1) .35s both}
+.header-anim .header-meta{animation:fadeIn .6s ease .5s both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+
+.footer{padding:2.5rem 0;display:flex;justify-content:space-between;align-items:center;font-size:.6rem;color:var(--muted);font-family:'Space Mono',monospace}
+.footer-brand{font-family:'Sora',sans-serif;font-weight:800;font-size:1rem;background:linear-gradient(135deg,var(--accent),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:.08em}
+
+@media(max-width:768px){
+  h1{font-size:2.2rem}h2{font-size:1.15rem}
+  .page{padding:0 1.25rem}
+  section{padding:3rem 0}
+  .header{flex-direction:column;align-items:flex-start;padding:2.5rem 0 3rem;gap:1.5rem}
+  .header-meta{text-align:left}
+  .concept-box{padding:2rem .5rem}
+  .concept-text{font-size:1rem}
+  .g3{grid-template-columns:1fr}
+  .g2{grid-template-columns:1fr}
+  .gamme-specs{grid-template-columns:1fr 1fr}
+  .flow{grid-template-columns:1fr}
+  .flow-3{grid-template-columns:1fr}
+  .fl-arrow{display:none!important}
+  .detail-row{grid-template-columns:1fr}
+  .rev-grid{grid-template-columns:1fr!important}
+  .comp{font-size:.65rem}
+  .comp th,.comp td{padding:.5rem .5rem}
+  .concept-pills{flex-direction:column;align-items:center}
+  .pill{font-size:.65rem;text-align:center}
+  .slider-group{margin-bottom:.25rem}
+  .feat-title{font-size:.9rem}
+  .footer{flex-direction:column;gap:.5rem;text-align:center;padding:2rem 0}
+  #simulator .g{padding:1.25rem!important}
+  #simulator [style*="grid-template-columns: repeat(3"]{grid-template-columns:1fr!important}
+  #simulator [style*="grid-template-columns:1fr 1fr"]{grid-template-columns:1fr!important}
+  [style*="grid-template-columns:1fr 1fr;gap:1.25rem"]{grid-template-columns:1fr!important}
+}
+</style>
+</head>
+<body>
+<div class="grid-bg"></div>
+<div class="page">
+
+<!-- HEADER -->
+<div class="header header-anim">
+  <div>
+    <div class="label">Concept Application Mobile</div>
+    <h1><span>KIBLA Drive</span></h1>
+    <p class="subtitle">Chauffeur privé premium · Flotte dédiée · Paris & IDF</p>
+  </div>
+  <div class="header-meta">
+    <div class="tag">Confidentiel</div>
+    <p>Houdini Studio<br>Mars 2026</p>
+  </div>
+</div>
+
+<!-- CONCEPT -->
+<section class="concept-box">
+  <p class="concept-text rv">
+    Une app mobile où <strong>vos clients réservent un chauffeur privé en temps réel</strong> parmi <strong>votre propre flotte</strong> de berlines et vans aménagés — avec des services qu'<strong>Uber et Bolt ne feront jamais</strong> : événementiel avec devis instantané, chauffeur attitré, abonnement VIP, conciergerie en route, et courses offertes en cadeau.
+  </p>
+  <div class="concept-pills">
+    <div class="pill rv-scale d1">🔒 <em>Votre flotte</em> — pas des freelances</div>
+    <div class="pill rv-scale d2">👤 <em>Vos chauffeurs</em> — formés par vous</div>
+    <div class="pill rv-scale d3">🎩 <em>Événementiel</em> — devis auto dans l'app</div>
+    <div class="pill rv-scale d4">🏢 <em>Corporate</em> — facture mensuelle</div>
+    <div class="pill rv-scale d5">💎 <em>Abonnement VIP</em> — courses illimitées</div>
+    <div class="pill rv-scale d6">🎁 <em>Course cadeau</em> — offrir un trajet</div>
+  </div>
+</section>
+
+<!-- POURQUOI DIFFÉRENT -->
+<section>
+  <div class="label rv">Pourquoi c'est différent</div>
+  <h2 class="rv d1">Ce que KIBLA Drive a <span class="accent">et qu'Uber / Bolt n'auront jamais</span></h2>
+  <div class="g3">
+    <div class="g pil rv-scale d1">
+      <div class="pil-icon">🔒</div>
+      <h3>Vous possédez la flotte</h3>
+      <div class="pil-point"><span>Chez Uber : le chauffeur utilise sa propre voiture, vous ne contrôlez rien</span></div>
+      <div class="pil-point"><span>Chez KIBLA Drive : chaque véhicule est à vous — état, propreté, image = votre marque</span></div>
+      <div class="pil-point"><span>Le client sait exactement dans quel véhicule il va monter</span></div>
+    </div>
+    <div class="g pil rv-scale d2">
+      <div class="pil-icon">👤</div>
+      <h3>Vos propres chauffeurs</h3>
+      <div class="pil-point"><span>Pas d'indépendants qui bossent pour 3 apps en même temps</span></div>
+      <div class="pil-point"><span>Formés par vous, habillés à votre image, avec vos standards</span></div>
+      <div class="pil-point"><span>Le client peut garder son chauffeur préféré et le re-demander</span></div>
+    </div>
+    <div class="g pil rv-scale d3">
+      <div class="pil-icon">🎯</div>
+      <h3>Des services qui n'existent pas</h3>
+      <div class="pil-point"><span>Réserver un van pour son mariage avec devis auto dans l'app</span></div>
+      <div class="pil-point"><span>Abonnement mensuel VIP avec courses à tarif réduit</span></div>
+      <div class="pil-point"><span>Offrir une course en cadeau à quelqu'un via l'app</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- GAMMES -->
+<section>
+  <div class="label rv">Les véhicules</div>
+  <h2 class="rv d1">3 gammes <span class="accent">au choix à la commande</span></h2>
+  <div class="g3">
+    <div class="g gamme rv-scale d1">
+      <div class="gamme-glow"></div>
+      <div class="gamme-top">
+        <div class="gamme-top-icon">🚘</div>
+        <div class="gamme-top-text"><h3>Élite</h3><span>Berline premium</span></div>
+      </div>
+      <div class="gamme-specs">
+        <div class="spec"><div class="spec-label">Type</div><div class="spec-val">Berline de la flotte</div></div>
+        <div class="spec"><div class="spec-label">Usage</div><div class="spec-val">Bureau, RDV, aéroport, gare</div></div>
+        <div class="spec"><div class="spec-label">Réservation</div><div class="spec-val">On-demand (temps réel)</div></div>
+        <div class="spec"><div class="spec-label">Tarification</div><div class="spec-val">Prix fixe avant confirmation</div></div>
+      </div>
+      <div class="gamme-footer"><span>Passagers</span><strong>1 à 3</strong></div>
+    </div>
+    <div class="g gamme rv-scale d2" style="border-color:rgba(201,168,76,.2);background:linear-gradient(135deg,rgba(201,168,76,.06),rgba(201,168,76,.015))">
+      <div class="gamme-glow"></div>
+      <div class="gamme-badge">Populaire</div>
+      <div class="gamme-top">
+        <div class="gamme-top-icon">🚐</div>
+        <div class="gamme-top-text"><h3>Van</h3><span>Groupe & confort</span></div>
+      </div>
+      <div class="gamme-specs">
+        <div class="spec"><div class="spec-label">Type</div><div class="spec-val">Van de la flotte</div></div>
+        <div class="spec"><div class="spec-label">Usage</div><div class="spec-val">Familles, amis, équipes pro</div></div>
+        <div class="spec"><div class="spec-label">Réservation</div><div class="spec-val">On-demand (temps réel)</div></div>
+        <div class="spec"><div class="spec-label">Tarification</div><div class="spec-val">Prix fixe avant confirmation</div></div>
+      </div>
+      <div class="gamme-footer"><span>Passagers</span><strong>4 à 7</strong></div>
+    </div>
+    <div class="g gamme rv-scale d3">
+      <div class="gamme-glow"></div>
+      <div class="gamme-badge">Exclusif</div>
+      <div class="gamme-top">
+        <div class="gamme-top-icon">👑</div>
+        <div class="gamme-top-text"><h3>Prestige</h3><span>Van aménagé VIP</span></div>
+      </div>
+      <div class="gamme-specs">
+        <div class="spec"><div class="spec-label">Type</div><div class="spec-val">Van aménagé de la flotte</div></div>
+        <div class="spec"><div class="spec-label">Ambiance</div><div class="spec-val">Aménagement lounge / VIP</div></div>
+        <div class="spec"><div class="spec-label">Usage</div><div class="spec-val">Mariages, soirées, tours VIP</div></div>
+        <div class="spec"><div class="spec-label">Réservation</div><div class="spec-val">Via module événementiel</div></div>
+      </div>
+      <div class="gamme-footer"><span>Passagers</span><strong>2 à 6 VIP</strong></div>
+    </div>
+  </div>
+</section>
+
+<!-- FONCTIONNALITÉS CORE -->
+<section>
+  <div class="label rv">Fonctionnement de l'app</div>
+  <h2 class="rv d1">Les fonctions <span class="accent">essentielles</span></h2>
+
+  <div class="feat rv">
+    <div class="feat-header"><div class="feat-icon">📍</div><div class="feat-title">Commander une course</div></div>
+    <div class="flow">
+      <div class="fl"><div class="fl-arrow"></div><div class="fl-num">01</div><h4>Carte en direct</h4><p>Le client ouvre l'app → voit les véhicules KIBLA Drive autour de lui sur la carte GPS</p></div>
+      <div class="fl"><div class="fl-arrow"></div><div class="fl-num">02</div><h4>Destination + gamme</h4><p>Il tape son adresse → l'app affiche le prix fixe pour Élite et pour Van</p></div>
+      <div class="fl"><div class="fl-arrow"></div><div class="fl-num">03</div><h4>Chauffeur en route</h4><p>Il confirme → le chauffeur le plus proche a 15 sec pour accepter → photo, nom, plaque, ETA affichés</p></div>
+      <div class="fl"><div class="fl-num">04</div><h4>Arrivée + paiement</h4><p>Tracking GPS pendant le trajet → paiement auto par CB → il note le chauffeur</p></div>
+    </div>
+  </div>
+
+  <div class="feat rv">
+    <div class="feat-header"><div class="feat-icon">⭐</div><div class="feat-title">Choisir son chauffeur préféré</div></div>
+    <div class="detail-row">
+      <div class="det"><h4>📋 Profil chauffeur</h4><p>Chaque chauffeur a une fiche : photo, bio, langues parlées, note /5, nombre de courses</p></div>
+      <div class="det"><h4>⭐ Bouton favori</h4><p>Après une course, le client tape ⭐ → ce chauffeur est sauvé dans sa liste de favoris</p></div>
+      <div class="det"><h4>📲 Demander un favori</h4><p>À la prochaine commande, bouton « Demander Mehdi » → si dispo, il reçoit la course en priorité</p></div>
+      <div class="det"><h4>🔔 S'il est occupé</h4><p>Notification : « Mehdi dispo dans ~15 min. Patienter ou autre chauffeur ? »</p></div>
+    </div>
+  </div>
+
+  <div class="feat rv">
+    <div class="feat-header"><div class="feat-icon">🎩</div><div class="feat-title">Réserver pour un événement</div></div>
+    <div class="flow">
+      <div class="fl"><div class="fl-arrow"></div><div class="fl-num">01</div><h4>Formulaire rapide</h4><p>Onglet « Événement » → type (mariage, soirée, tour, anniversaire), date, heure, nb passagers, durée, adresse</p></div>
+      <div class="fl"><div class="fl-arrow"></div><div class="fl-num">02</div><h4>Véhicule + options</h4><p>Choix Van ou Prestige → options payantes configurées par le propriétaire (décoration, extras, etc.)</p></div>
+      <div class="fl"><div class="fl-arrow"></div><div class="fl-num">03</div><h4>Devis instantané</h4><p>Calcul auto : (durée × tarif horaire) + options = prix total → acompte 30% en CB pour confirmer</p></div>
+      <div class="fl"><div class="fl-num">04</div><h4>Jour J</h4><p>48h avant : le chauffeur reçoit le brief complet → véhicule préparé → solde payé le jour même</p></div>
+    </div>
+  </div>
+
+  <div class="feat rv">
+    <div class="feat-header"><div class="feat-icon">🏢</div><div class="feat-title">Comptes entreprise</div></div>
+    <div class="flow">
+      <div class="fl"><div class="fl-arrow"></div><div class="fl-num">01</div><h4>Inscription société</h4><p>L'admin entre son SIRET + infos de facturation → ajoute ses collaborateurs par email</p></div>
+      <div class="fl"><div class="fl-arrow"></div><div class="fl-num">02</div><h4>Plafonds par personne</h4><p>L'admin fixe un budget max/mois par collaborateur (ex : « 300€/mois pour Paul »)</p></div>
+      <div class="fl"><div class="fl-arrow"></div><div class="fl-num">03</div><h4>L'équipe commande</h4><p>Chaque collaborateur utilise l'app → les courses sont facturées au compte entreprise</p></div>
+      <div class="fl"><div class="fl-num">04</div><h4>Facture mensuelle</h4><p>1 facture PDF fin de mois : détail par course, par personne, HT + TVA + TTC, export CSV</p></div>
+    </div>
+    <div class="detail-row" style="margin-top:.75rem">
+      <div class="det"><h4>📊 Dashboard admin</h4><p>Vue temps réel : dépenses totales, par collaborateur, courses en cours, dépassements de plafond</p></div>
+      <div class="det"><h4>🚫 Si plafond atteint</h4><p>Le collaborateur reçoit : « Budget pro épuisé. Payer de votre poche ou contacter votre admin. »</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- FONCTIONNALITÉS QUI TUENT -->
+<section>
+  <div class="label rv">Ce qui rend l'app addictive</div>
+  <h2 class="rv d1">Les features <span class="accent">qu'aucun VTC ne fait</span></h2>
+
+  <div class="feat rv">
+    <div class="feat-header"><div class="feat-icon">💎</div><div class="feat-title">KIBLA Club — Abonnement mensuel VIP</div></div>
+    <div class="detail-row">
+      <div class="det"><h4>📦 Le principe</h4><p>Le client paie un abonnement mensuel (ex : 99€/mois) → il a un nombre de courses incluses à tarif réduit chaque mois</p></div>
+      <div class="det"><h4>⚡ Avantages membres</h4><p>Surclassement auto Élite → Van quand un Van est dispo, priorité sur le dispatch, accès Prestige à -15%</p></div>
+      <div class="det"><h4>📈 Pourquoi c'est puissant</h4><p>Revenu récurrent garanti chaque mois. Le client s'engage → il utilise plus → il part jamais chez un concurrent</p></div>
+      <div class="det"><h4>🎚️ Configurable</h4><p>Vous définissez les paliers dans le back-office : prix, nb courses incluses, et les avantages de chaque palier</p></div>
+    </div>
+  </div>
+
+  <div class="feat rv">
+    <div class="feat-header"><div class="feat-icon">🎁</div><div class="feat-title">Offrir une course en cadeau</div></div>
+    <div class="flow flow-3">
+      <div class="fl"><div class="fl-arrow"></div><div class="fl-num">01</div><h4>Le client tape « Offrir »</h4><p>Dans l'app, bouton « Offrir une course » → il entre le nom et le numéro du destinataire</p></div>
+      <div class="fl"><div class="fl-arrow"></div><div class="fl-num">02</div><h4>Il choisit le montant</h4><p>Crédit de 20€, 50€ ou 100€ — ou un trajet précis (ex : « CDG → Paris »). Il paie par CB.</p></div>
+      <div class="fl"><div class="fl-num">03</div><h4>Le destinataire reçoit</h4><p>SMS + notification avec un message perso : « Paul t'offre une course KIBLA Drive 🎉 ». Le crédit est dans son compte.</p></div>
+    </div>
+    <div class="detail-row" style="margin-top:.75rem">
+      <div class="det"><h4>🎂 Pourquoi ça change tout</h4><p>Anniversaires, remerciements, cadeaux pro → chaque course offerte ramène un nouveau client qui n'aurait jamais téléchargé l'app</p></div>
+      <div class="det"><h4>📣 Bouche-à-oreille viral</h4><p>Le destinataire découvre le service gratuitement → il kiffe → il revient payer. Acquisition client à coût zéro.</p></div>
+    </div>
+  </div>
+
+  <div class="feat rv">
+    <div class="feat-header"><div class="feat-icon">🛎️</div><div class="feat-title">Conciergerie en route</div></div>
+    <div class="detail-row">
+      <div class="det"><h4>💐 Le principe</h4><p>Pendant le trajet, le client peut demander au chauffeur un service via l'app : acheter des fleurs, s'arrêter prendre un café, faire un détour courses</p></div>
+      <div class="det"><h4>🍽️ Réservations</h4><p>Le client peut aussi demander au chauffeur de réserver un restaurant ou une table pendant qu'il roule</p></div>
+      <div class="det"><h4>💰 Facturation</h4><p>Les extras sont facturés en plus du trajet, automatiquement sur la même CB. Marge supplémentaire pour vous.</p></div>
+      <div class="det"><h4>🏆 L'effet luxe</h4><p>Ça transforme un simple trajet en expérience de conciergerie privée. Le client se sent VIP → il en parle → il revient.</p></div>
+    </div>
+  </div>
+
+  <div class="feat rv">
+    <div class="feat-header"><div class="feat-icon">🗼</div><div class="feat-title">Mode Touriste — Circuits prédéfinis</div></div>
+    <div class="flow flow-3">
+      <div class="fl"><div class="fl-arrow"></div><div class="fl-num">01</div><h4>Catalogue de circuits</h4><p>Dans l'app, onglet « Tours » → Paris by Night, Versailles Express, Street Art Tour, etc. Chaque circuit a une durée et un prix fixe.</p></div>
+      <div class="fl"><div class="fl-arrow"></div><div class="fl-num">02</div><h4>Réservation en 2 taps</h4><p>Le touriste choisit un circuit → date, heure, gamme de véhicule → prix affiché → il confirme et paie.</p></div>
+      <div class="fl"><div class="fl-num">03</div><h4>Le chauffeur-guide</h4><p>Le chauffeur assigné connaît le parcours. Il commente les arrêts, propose des pauses photo, s'adapte au rythme du client.</p></div>
+    </div>
+    <div class="detail-row" style="margin-top:.75rem">
+      <div class="det"><h4>🏨 Partenariats hôtels</h4><p>Les hôtels parisiens recommandent KIBLA Drive à leurs clients touristes → QR code à la réception → réservation directe</p></div>
+      <div class="det"><h4>🌍 Multilingue</h4><p>L'app affiche les circuits en français et en anglais. Les chauffeurs assignés aux tours parlent au minimum anglais.</p></div>
+    </div>
+  </div>
+
+  <div class="feat rv">
+    <div class="feat-header"><div class="feat-icon">📸</div><div class="feat-title">Récap de trajet partageable</div></div>
+    <div class="detail-row">
+      <div class="det"><h4>🎬 Après chaque course</h4><p>Le client reçoit un récap visuel stylé : carte du trajet, durée, chauffeur, gamme utilisée — dans un design premium aux couleurs KIBLA</p></div>
+      <div class="det"><h4>📲 Partage Instagram / WhatsApp</h4><p>Bouton « Partager » → le client poste son trajet en story. Chaque partage = pub gratuite avec le logo KIBLA Drive visible.</p></div>
+    </div>
+  </div>
+
+  <div class="feat rv">
+    <div class="feat-header"><div class="feat-icon">🎁</div><div class="feat-title">Programme fidélité automatique</div></div>
+    <div class="flow flow-3">
+      <div class="fl"><div class="fl-num">5 COURSES</div><h4>Upgrade offert</h4><p>Notification auto : « Votre prochaine course est upgradée Élite → Van gratuitement »</p></div>
+      <div class="fl"><div class="fl-num">10 COURSES</div><h4>-20% événementiel</h4><p>Réduction automatique de 20% sur la prochaine réservation événement</p></div>
+      <div class="fl"><div class="fl-num">PARRAINAGE</div><h4>15€ chacun</h4><p>Le client envoie son code via l'app → son ami s'inscrit → 15€ de crédit pour les deux</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- COMPARATIF -->
+<section>
+  <div class="label rv">Positionnement</div>
+  <h2 class="rv d1">KIBLA Drive vs. <span class="accent">Uber & Bolt</span></h2>
+  <div class="g rv-scale d2" style="border-radius:14px;overflow:hidden">
+    <table class="comp">
+      <thead><tr>
+        <th></th>
+        <th class="hl ck">KIBLA Drive</th>
+        <th>Uber</th>
+        <th>Bolt</th>
+      </tr></thead>
+      <tbody>
+        <tr><td>Vous possédez les véhicules</td><td class="ck"><span class="y">✓</span></td><td><span class="n">✕</span></td><td><span class="n">✕</span></td></tr>
+        <tr><td>Vos chauffeurs sont dédiés</td><td class="ck"><span class="y">✓</span></td><td><span class="n">✕</span></td><td><span class="n">✕</span></td></tr>
+        <tr><td>Le client choisit son chauffeur</td><td class="ck"><span class="y">✓</span></td><td><span class="n">✕</span></td><td><span class="n">✕</span></td></tr>
+        <tr><td>Réservation événement + devis auto</td><td class="ck"><span class="y">✓</span></td><td><span class="n">✕</span></td><td><span class="n">✕</span></td></tr>
+        <tr><td>Vans aménagés VIP pour événements</td><td class="ck"><span class="y">✓</span></td><td><span class="n">✕</span></td><td><span class="n">✕</span></td></tr>
+        <tr><td>Abonnement mensuel VIP</td><td class="ck"><span class="y">✓</span></td><td><span class="n">✕</span></td><td><span class="n">✕</span></td></tr>
+        <tr><td>Offrir une course en cadeau</td><td class="ck"><span class="y">✓</span></td><td><span class="n">✕</span></td><td><span class="n">✕</span></td></tr>
+        <tr><td>Conciergerie en route</td><td class="ck"><span class="y">✓</span></td><td><span class="n">✕</span></td><td><span class="n">✕</span></td></tr>
+        <tr><td>Circuits touristiques dans l'app</td><td class="ck"><span class="y">✓</span></td><td><span class="n">✕</span></td><td><span class="n">✕</span></td></tr>
+        <tr><td>Récap trajet partageable</td><td class="ck"><span class="y">✓</span></td><td><span class="n">✕</span></td><td><span class="n">✕</span></td></tr>
+        <tr><td>Compte entreprise + facture</td><td class="ck"><span class="y">✓</span></td><td><span class="y">✓</span></td><td><span class="y">✓</span></td></tr>
+        <tr><td>Prix affiché avant confirmation</td><td class="ck"><span class="y">✓</span></td><td><span class="y">✓</span></td><td><span class="y">✓</span></td></tr>
+        <tr><td>Commande en temps réel</td><td class="ck"><span class="y">✓</span></td><td><span class="y">✓</span></td><td><span class="y">✓</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- REVENUS -->
+<section>
+  <div class="label rv">Revenus</div>
+  <h2 class="rv d1">6 sources de <span class="accent">revenus</span></h2>
+  <div class="rev-grid" style="grid-template-columns:repeat(3,1fr)">
+    <div class="g rev rv-scale d1">
+      <div class="rev-i">🚗</div>
+      <h4>Courses</h4>
+      <p class="rev-desc">Tarif au km + temps. Pas de commission plateforme — 100% pour vous.</p>
+      <div class="rev-num">100%<span>votre marge</span></div>
+    </div>
+    <div class="g rev rv-scale d2">
+      <div class="rev-i">🎩</div>
+      <h4>Événements</h4>
+      <p class="rev-desc">Demi-journée / journée + options payantes. Marge la plus élevée.</p>
+      <div class="rev-num">×3<span>marge vs course</span></div>
+    </div>
+    <div class="g rev rv-scale d3">
+      <div class="rev-i">💎</div>
+      <h4>Abonnements VIP</h4>
+      <p class="rev-desc">Revenus récurrents mensuels garantis. Le client paie même quand il roule pas.</p>
+      <div class="rev-num">MRR<span>garanti</span></div>
+    </div>
+    <div class="g rev rv-scale d1">
+      <div class="rev-i">🏢</div>
+      <h4>Corporate</h4>
+      <p class="rev-desc">Entreprises = volume récurrent mensuel. Facture consolidée.</p>
+      <div class="rev-num">B2B<span>volume récurrent</span></div>
+    </div>
+    <div class="g rev rv-scale d2">
+      <div class="rev-i">🎁</div>
+      <h4>Courses cadeaux</h4>
+      <p class="rev-desc">Le client paie une course pour quelqu'un d'autre → nouveau client acquis gratuitement.</p>
+      <div class="rev-num">+0€<span>coût d'acquisition</span></div>
+    </div>
+    <div class="g rev rv-scale d3">
+      <div class="rev-i">🤝</div>
+      <h4>Partenaires</h4>
+      <p class="rev-desc">Hôtels, agences, wedding planners recommandent KIBLA Drive → leads gratuits.</p>
+      <div class="rev-num">+25%<span>leads entrants</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- SIMULATEUR INTERACTIF -->
+<section>
+  <div class="label rv">Potentiel financier</div>
+  <h2 class="rv d1">Simulez votre <span class="accent">bénéfice mensuel</span></h2>
+
+  <div class="rv-scale d1" id="simulator">
+
+    <!-- SLIDERS -->
+    <div class="g" style="padding:2rem;border-radius:14px;margin-bottom:1rem">
+      <div style="font-family:'Space Mono',monospace;font-size:.5rem;color:var(--cyan);letter-spacing:.15em;text-transform:uppercase;margin-bottom:1.25rem">Ajustez vos paramètres</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.25rem">
+        <div class="slider-group">
+          <div class="slider-head"><span>🚗 Véhicules</span><strong id="v_vehicles">10</strong></div>
+          <input type="range" id="vehicles" min="5" max="30" value="10" class="sim-range">
+        </div>
+        <div class="slider-group">
+          <div class="slider-head"><span>📍 Courses / jour / véhicule</span><strong id="v_cpd">6</strong></div>
+          <input type="range" id="cpd" min="3" max="12" value="6" class="sim-range">
+        </div>
+        <div class="slider-group">
+          <div class="slider-head"><span>💰 Panier moyen (€)</span><strong id="v_avg">35</strong></div>
+          <input type="range" id="avg" min="20" max="60" value="35" class="sim-range">
+        </div>
+        <div class="slider-group">
+          <div class="slider-head"><span>💎 Abonnés KIBLA Club</span><strong id="v_vip">0</strong></div>
+          <input type="range" id="vip" min="0" max="100" value="0" class="sim-range">
+        </div>
+        <div class="slider-group">
+          <div class="slider-head"><span>🏢 Comptes entreprise</span><strong id="v_corp">0</strong></div>
+          <input type="range" id="corp" min="0" max="20" value="0" class="sim-range">
+        </div>
+        <div class="slider-group">
+          <div class="slider-head"><span>🎩 Événements / mois</span><strong id="v_events">4</strong></div>
+          <input type="range" id="events" min="0" max="20" value="4" class="sim-range">
+        </div>
+        <div class="slider-group">
+          <div class="slider-head"><span>🎁 Courses cadeaux / mois</span><strong id="v_gifts">0</strong></div>
+          <input type="range" id="gifts" min="0" max="50" value="0" class="sim-range">
+        </div>
+      </div>
+    </div>
+
+    <!-- RÉSULTATS -->
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;margin-bottom:1rem">
+      <div class="g" style="padding:1.25rem;border-radius:14px;text-align:center;border-color:rgba(78,222,128,.15)">
+        <div style="font-family:'Space Mono',monospace;font-size:.45rem;color:var(--green);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.4rem">CA total / mois</div>
+        <div id="r_ca" style="font-family:'Space Mono',monospace;font-size:1.6rem;font-weight:700;color:var(--green)">40 750€</div>
+      </div>
+      <div class="g" style="padding:1.25rem;border-radius:14px;text-align:center;border-color:rgba(248,113,113,.12)">
+        <div style="font-family:'Space Mono',monospace;font-size:.45rem;color:#F87171;letter-spacing:.1em;text-transform:uppercase;margin-bottom:.4rem">Charges totales</div>
+        <div id="r_charges" style="font-family:'Space Mono',monospace;font-size:1.6rem;font-weight:700;color:#F87171">-34 000€</div>
+      </div>
+      <div class="g" style="padding:1.25rem;border-radius:14px;text-align:center;border-color:rgba(201,168,76,.3);background:linear-gradient(135deg,rgba(201,168,76,.1),rgba(201,168,76,.03))">
+        <div style="font-family:'Space Mono',monospace;font-size:.5rem;color:var(--accent);letter-spacing:.12em;text-transform:uppercase;margin-bottom:.4rem">Bénéfice net</div>
+        <div id="r_benef" style="font-family:'Space Mono',monospace;font-size:1.8rem;font-weight:700;background:linear-gradient(135deg,var(--accent),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">6 750€</div>
+        <div style="font-size:.55rem;color:var(--muted);margin-top:.15rem">/ mois · dans votre poche</div>
+      </div>
+    </div>
+
+    <!-- DÉTAIL -->
+    <div class="g" style="padding:1.25rem 1.5rem;border-radius:14px">
+      <div style="font-family:'Space Mono',monospace;font-size:.45rem;color:var(--cyan);letter-spacing:.12em;text-transform:uppercase;margin-bottom:.75rem">Détail du calcul</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:.5rem" id="detail_grid">
+        <div class="det"><h4 style="color:var(--green)">🚗 Courses classiques</h4><p id="d_courses">1 050 courses × 35€ = 36 750€</p></div>
+        <div class="det"><h4 style="color:var(--green)">🎩 Événements</h4><p id="d_events">4 × 1 000€ = 4 000€</p></div>
+        <div class="det"><h4 style="color:var(--green)">💎 Abonnements VIP</h4><p id="d_vip">0 abonnés × 99€ = 0€</p></div>
+        <div class="det"><h4 style="color:var(--green)">🏢 Corporate</h4><p id="d_corp">0 comptes × 800€ moy = 0€</p></div>
+        <div class="det"><h4 style="color:var(--green)">🎁 Courses cadeaux</h4><p id="d_gifts">0 × 40€ moy = 0€</p></div>
+        <div class="det"><h4 style="color:#F87171">👤 Salaires chauffeurs</h4><p id="d_salaires">10 × 2 400€ = -24 000€</p></div>
+        <div class="det"><h4 style="color:#F87171">⛽ Carburant</h4><p id="d_carb">10 × 600€ = -6 000€</p></div>
+        <div class="det"><h4 style="color:#F87171">🔧 Entretien + assurance + app</h4><p id="d_other">10 × 350€ + 500€ = -4 000€</p></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<style>
+.slider-group{display:flex;flex-direction:column;gap:.4rem}
+.slider-head{display:flex;justify-content:space-between;align-items:center;font-size:.72rem}
+.slider-head span{color:var(--muted);font-weight:500}
+.slider-head strong{color:var(--bright);font-weight:700;font-family:'Space Mono',monospace;font-size:.8rem}
+.sim-range{-webkit-appearance:none;appearance:none;width:100%;height:4px;border-radius:4px;background:var(--glass-border);outline:none;cursor:pointer}
+.sim-range::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:18px;height:18px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--cyan));cursor:pointer;box-shadow:0 0 12px rgba(201,168,76,.3)}
+.sim-range::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--cyan));cursor:pointer;border:none;box-shadow:0 0 12px rgba(201,168,76,.3)}
+</style>
+
+<!-- INVESTISSEMENT -->
+<section>
+  <div class="label rv">Investissement</div>
+  <h2 class="rv d1">Combien ça coûte <span class="accent">de tout construire</span></h2>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.25rem">
+    <div class="g rv-scale d1" style="padding:2rem;border-radius:14px">
+      <div style="font-family:'Space Mono',monospace;font-size:.5rem;color:var(--cyan);letter-spacing:.15em;text-transform:uppercase;margin-bottom:.75rem">Ce qui est inclus</div>
+      <div class="pil-point"><span>Application client iOS & Android (React Native)</span></div>
+      <div class="pil-point"><span>Application chauffeur iOS & Android</span></div>
+      <div class="pil-point"><span>Back-office propriétaire (dashboard web)</span></div>
+      <div class="pil-point"><span>Commande on-demand + tracking GPS temps réel</span></div>
+      <div class="pil-point"><span>3 gammes de véhicules (Élite, Van, Prestige)</span></div>
+      <div class="pil-point"><span>Module événementiel avec devis automatique</span></div>
+      <div class="pil-point"><span>Profils chauffeurs + système de favoris</span></div>
+      <div class="pil-point"><span>Comptes entreprise + facturation mensuelle</span></div>
+      <div class="pil-point"><span>KIBLA Club (abonnement VIP)</span></div>
+      <div class="pil-point"><span>Course cadeau + conciergerie + mode touriste</span></div>
+      <div class="pil-point"><span>Programme fidélité + parrainage</span></div>
+      <div class="pil-point"><span>Récap trajet partageable</span></div>
+      <div class="pil-point"><span>Paiement en ligne sécurisé (Stripe)</span></div>
+      <div class="pil-point"><span>Notifications push temps réel</span></div>
+    </div>
+    <div class="g rv-scale d2" style="padding:2rem;border-radius:14px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;border-color:rgba(201,168,76,.25);background:linear-gradient(135deg,rgba(201,168,76,.08),rgba(201,168,76,.02))">
+      <div style="font-family:'Space Mono',monospace;font-size:.55rem;color:var(--cyan);letter-spacing:.2em;text-transform:uppercase;margin-bottom:.75rem">Investissement total</div>
+      <div style="font-family:'Space Mono',monospace;font-size:3rem;font-weight:700;background:linear-gradient(135deg,var(--accent),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1">12 000€</div>
+      <div style="font-size:.75rem;color:var(--muted);margin-top:.5rem;margin-bottom:1.25rem">Développement complet clé en main</div>
+      <div style="display:flex;flex-direction:column;gap:.4rem;width:100%">
+        <div class="det" style="text-align:left"><h4>⚡ Rentabilisé en</h4><p>Moins de 2 mois de bénéfice net (6 750€/mois × 2 = 13 500€ > 12 000€ investis)</p></div>
+        <div class="det" style="text-align:left"><h4>🔧 Inclus</h4><p>Développement + déploiement App Store & Google Play + 30 jours de support post-lancement</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<div class="footer">
+  <span class="footer-brand">KIBLA Drive</span>
+  <span>Concept — Houdini Studio — Mars 2026</span>
+  <span>Document confidentiel</span>
+</div>
+
+</div>
+
+<script>
+const obs=new IntersectionObserver(e=>{e.forEach(el=>{if(el.isIntersecting)el.target.classList.add('vis')})},{threshold:.08,rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.rv,.rv-scale').forEach(el=>obs.observe(el));
+
+// SIMULATOR
+const fmt=n=>{const s=n<0;const a=Math.abs(Math.round(n));const f=a.toString().replace(/\B(?=(\d{3})+(?!\d))/g,' ');return(s?'-':'')+f+'€'};
+
+function calc(){
+  const v=+document.getElementById('vehicles').value;
+  const cpd=+document.getElementById('cpd').value;
+  const avg=+document.getElementById('avg').value;
+  const vip=+document.getElementById('vip').value;
+  const corp=+document.getElementById('corp').value;
+  const ev=+document.getElementById('events').value;
+  const gifts=+document.getElementById('gifts').value;
+
+  // Update displayed values
+  document.getElementById('v_vehicles').textContent=v;
+  document.getElementById('v_cpd').textContent=cpd;
+  document.getElementById('v_avg').textContent=avg;
+  document.getElementById('v_vip').textContent=vip;
+  document.getElementById('v_corp').textContent=corp;
+  document.getElementById('v_events').textContent=ev;
+  document.getElementById('v_gifts').textContent=gifts;
+
+  // Revenue
+  const coursesCount=Math.round(v*cpd*25);
+  const rCourses=coursesCount*avg;
+  const rEvents=ev*1000;
+  const rVip=vip*99;
+  const rCorp=corp*800;
+  const rGifts=gifts*40;
+  const totalCA=rCourses+rEvents+rVip+rCorp+rGifts;
+
+  // Charges
+  const cSalaires=v*2400;
+  const cCarb=v*600;
+  const cOther=v*350+500;
+  const totalCharges=cSalaires+cCarb+cOther;
+
+  const benef=totalCA-totalCharges;
+
+  // Update results
+  document.getElementById('r_ca').textContent=fmt(totalCA);
+  document.getElementById('r_charges').textContent=fmt(-totalCharges);
+  document.getElementById('r_benef').textContent=fmt(benef);
+  document.getElementById('r_benef').style.color=benef>=0?'':'#F87171';
+  document.getElementById('r_benef').style.background=benef>=0?'linear-gradient(135deg,#C9A84C,#38BDF8)':'none';
+  document.getElementById('r_benef').style.webkitBackgroundClip=benef>=0?'text':'unset';
+  document.getElementById('r_benef').style.webkitTextFillColor=benef>=0?'transparent':'#F87171';
+
+  // Update details
+  document.getElementById('d_courses').textContent=coursesCount.toLocaleString('fr')+' courses × '+avg+'€ = '+fmt(rCourses);
+  document.getElementById('d_events').textContent=ev+' × 1 000€ = '+fmt(rEvents);
+  document.getElementById('d_vip').textContent=vip+' abonnés × 99€ = '+fmt(rVip);
+  document.getElementById('d_corp').textContent=corp+' comptes × 800€ moy = '+fmt(rCorp);
+  document.getElementById('d_gifts').textContent=gifts+' × 40€ moy = '+fmt(rGifts);
+  document.getElementById('d_salaires').textContent=v+' × 2 400€ = '+fmt(-cSalaires);
+  document.getElementById('d_carb').textContent=v+' × 600€ = '+fmt(-cCarb);
+  document.getElementById('d_other').textContent=v+' × 350€ + 500€ = '+fmt(-cOther);
+}
+
+document.querySelectorAll('.sim-range').forEach(r=>r.addEventListener('input',calc));
+calc();
+</script>
+
+</body>
+</html>
